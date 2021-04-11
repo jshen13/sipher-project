@@ -42,7 +42,7 @@ def print_table():
 
 def add_random_kv():
     '''
-    Connects to database and adds a randomized key value pair to the db. Key and value are random hashes.
+    Connects to database and adds a randomized key value pair to the db. Key and value are random hashes. Also retrieves total number of entries to obtain times updated.
     '''
     conn = connect()
     cur = conn.cursor()
@@ -52,6 +52,10 @@ def add_random_kv():
     conn.commit()
     count = cur.rowcount
     print(count, "Record inserted successfully into Table")
+
+    cur.execute(f'''SELECT {key_var}, {value_var} FROM {table_var}''')
+    rows = cur.fetchall()
+    print(f"Database has been updated a total of {len(rows)} times")
     conn.close()
 
 
